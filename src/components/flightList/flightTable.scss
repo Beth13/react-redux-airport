@@ -11,6 +11,12 @@
     width: 100%;
     text-align: center;
   }
+
+  &__no-flight {
+    font-size: 40px;
+    font-weight: 700;
+    margin: auto;
+  }
 }
 
 .flight-list {

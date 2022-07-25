@@ -5,7 +5,7 @@ import FlightTableArrivals from "./flightTable/flightTableArrivals/FlightTableAr
 import "./flightList.scss";
 import FlightTableDep from "./flightTable/flightTableDep/FlightTableDep";
 
-const FlightList = () => {
+const FlightList = ({ flightValue, onSearchArrival, onSearchDep }) => {
   const [isClickedDep, setIsClickedDep] = useState(false);
   const [isClickedArr, setIsClickedArr] = useState(true);
 
@@ -27,8 +27,15 @@ const FlightList = () => {
         handleClickDep={handleClickDep}
         handleClickArr={handleClickArr}
       />
-      {isClickedDep && <FlightTableDep />}
-      {isClickedArr && <FlightTableArrivals />}
+      {isClickedDep && (
+        <FlightTableDep onSearchDep={onSearchDep} flightValue={flightValue} />
+      )}
+      {isClickedArr && (
+        <FlightTableArrivals
+          flightValue={flightValue}
+          onSearchArrival={onSearchArrival}
+        />
+      )}
     </div>
   );
 };
