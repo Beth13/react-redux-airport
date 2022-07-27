@@ -2,7 +2,7 @@ import React from "react";
 
 import "./search.scss";
 
-const Search = ({ onSearchArrival, setFlightValue, flightValue }) => {
+const Search = ({ setFlightValue, flightValue, searchArrivals }) => {
   const handleChange = (event) => {
     setFlightValue(event.target.value);
   };
@@ -22,7 +22,7 @@ const Search = ({ onSearchArrival, setFlightValue, flightValue }) => {
         />
         <button
           className="search__area-btn"
-          onClick={() => onSearchArrival(flightValue)}
+          // onClick={() => searchArrivals(flightValue)}
         >
           Search
         </button>

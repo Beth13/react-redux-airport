@@ -19,7 +19,7 @@ const FlightTableDep = ({ onSearchDep, flightValue }) => {
               <span className="flight-list__item_span">
                 {flight.destination}
               </span>
-              <span className="flight-list__item_span">{flight.status}</span>
+              <span className="flight-list__item_span">{"Do not landed"}</span>
               <span className="flight-list__item_span">{flight.flightId}</span>
               <span className="flight-list__item_span">{flight.company}</span>
             </li>
