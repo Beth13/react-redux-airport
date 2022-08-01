@@ -49,7 +49,7 @@ const FlightList = () => {
 
   const onSearchArrival = (flightValue) => {
     const findedArrival = flightsArrival.filter((flight) =>
-      flight.flightId.toLowerCase().includes(flightValue.toLowerCase())
+      flight.flightId.includes(flightValue)
     );
 
     return findedArrival;
@@ -57,7 +57,7 @@ const FlightList = () => {
 
   const onSearchDep = (flightValue) => {
     const findedDep = flightsDepartures.filter((flight) =>
-      flight.flightId.toLowerCase().includes(flightValue.toLowerCase())
+      flight.flightId.includes(flightValue)
     );
 
     return findedDep;
