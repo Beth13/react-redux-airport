@@ -1,64 +1,87 @@
-import React, { Component, useState } from "react";
-import { connect } from "react-redux";
-import * as flightActions from "../flightList/flightList.actions";
+import React, { useEffect, useState } from "react";
+import moment from "moment";
 
 import FlightHeader from "../flightList/flightHeader/FlightHeader";
 import FlightTableArrivals from "./flightTable/flightTableArrivals/FlightTableArrivals";
-
-import "./flightList.scss";
 import FlightTableDep from "./flightTable/flightTableDep/FlightTableDep";
 
-class FlightList extends Component {
-  render() {
-    const {
-      isArrival,
-      isDep,
-      flightValue,
-      handleClickArr,
-      handleClickDep,
-      onSearchDep,
-      onSearchArrival,
-    } = this.props;
+import "./flightList.scss";
+import { useLocation } from "react-router-dom";
+import { fetchFlights } from "../../gateway/flights.gateway";
 
-    return (
-      <div className="flight-list">
-        <FlightHeader
-          isArrival={isArrival}
-          isDep={isDep}
-          handleClickArr={handleClickArr}
-          handleClickDep={handleClickDep}
-        />
-        {isDep && (
-          <FlightTableDep onSearchDep={onSearchDep} flightValue={flightValue} />
-        )}
-        {isArrival && (
-          <FlightTableArrivals
-            flightValue={flightValue}
-            onSearchArrival={onSearchArrival}
-          />
-        )}
-      </div>
-    );
-  }
-}
+const FlightList = () => {
+  const [isClicked, setIsClicked] = useState(true);
+  const { search } = useLocation();
+  const valuesofSearch = search.split("=");
 
-const mapState = (state) => {
-  return {
-    isArrival: state.isArrival,
-    isDep: state.isDep,
-    // filteredArrivals: state.filteredArrivals,
-    // filteredDepartures: state.filteredDepartures,
+  const changeList = (headerName) => {
+    if (headerName === "arrivals") {
+      setIsClicked(false);
+    }
+    if (headerName === "departures") {
+      setIsClicked(true);
+    }
   };
+
+  const [flightsArrival, setFlightsArrival] = useState([]);
+  const [flightsDepartures, setFlightsDepartures] = useState([]);
+
+  useEffect(() => {
+    fetchFlights()
+      .then((flights) =>
+        flights.map(
+          (flight) =>
+            (flight = { ...flight, time: moment(new Date()).format("HH:MM") })
+        )
+      )
+      .then((flights) => {
+        const filterFlightsArr = flights.filter(
+          (flight) => flight.status === true
+        );
+        setFlightsArrival(filterFlightsArr);
+
+        const filterFlightsDep = flights.filter(
+          (flight) => flight.status === false
+        );
+        setFlightsDepartures(filterFlightsDep);
+      });
+  }, []);
+
+  const onSearchArrival = (flightValue) => {
+    const findedArrival = flightsArrival.filter((flight) =>
+      flight.flightId.toLowerCase().includes(flightValue.toLowerCase())
+    );
+
+    return findedArrival;
+  };
+
+  const onSearchDep = (flightValue) => {
+    const findedDep = flightsDepartures.filter((flight) =>
+      flight.flightId.toLowerCase().includes(flightValue.toLowerCase())
+    );
+
+    return findedDep;
+  };
+
+  return (
+    <div className="flight-list">
+      <div className="flight-list__header">
+        <FlightHeader headerName={"departures"} changeList={changeList} />
+        <FlightHeader headerName={"arrivals"} changeList={changeList} />
+      </div>
+      {isClicked ? (
+        <FlightTableDep
+          onSearchDep={onSearchDep}
+          valuesofSearch={valuesofSearch}
+        />
+      ) : (
+        <FlightTableArrivals
+          onSearchArrival={onSearchArrival}
+          valuesofSearch={valuesofSearch}
+        />
+      )}
+    </div>
+  );
 };
 
-const mapDispatch = {
-  handleClickArr: flightActions.changeToArivals,
-  handleClickDep: flightActions.changeToDepartunes,
-  // searchArrivals: flightActions.searchArrivals,
-  // searchDepartunes: flightActions.searchDepartunes,
-};
-
-const connector = connect(mapState, mapDispatch);
-const connectorFlightsList = connector(FlightList);
-
-export default connectorFlightsList;
+export default FlightList;

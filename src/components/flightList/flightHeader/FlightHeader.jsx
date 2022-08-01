@@ -1,34 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 import "./flightHeader.scss";
 
-class FlightHeader extends Component {
-  render() {
-    const { isArrival, isDep, handleClickArr, handleClickDep } = this.props;
+const FlightHeader = ({ headerName, changeList }) => {
+  const { search } = useLocation();
+  const parameter = search;
 
-    return (
-      <div className="flight-navigation">
-        <button
-          className={
-            isDep ? "active flight-navigation__btn" : "flight-navigation__btn"
-          }
-          onClick={handleClickDep}
-        >
-          departures
-        </button>
-        <button
-          className={
-            isArrival
-              ? "active flight-navigation__btn"
-              : "flight-navigation__btn"
-          }
-          onClick={handleClickArr}
-        >
-          arivals
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="flight-navigation">
+      <NavLink
+        onClick={() => {
+          changeList(headerName);
+        }}
+        className={({ isActive }) =>
+          isActive ? `active flight-navigation__btn` : "flight-navigation__btn"
+        }
+        to={`/${headerName}${parameter}`}
+      >
+        {headerName}
+      </NavLink>
+    </div>
+  );
+};
 
 export default FlightHeader;

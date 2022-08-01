@@ -1,21 +1,23 @@
-import { ARIVALS_SELECTED, DEPARTUNES_SELECTED } from "./flightList.actions";
+import { FLIGHT_ARIVALS, FLIGHT_DEPARTUNES } from "./flightList.actions";
 
 const initialState = {
-  isArrival: true,
-  isDep: false,
+  flightsArrival: [],
+  flightsDepartures: [],
 };
 
 const flightReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ARIVALS_SELECTED:
+    case FLIGHT_ARIVALS:
       return {
-        isArrival: true,
-        isDep: false,
+        ...state,
+        flightsArrival: state.flightsArrival.concat(action.payload.flightData),
       };
-    case DEPARTUNES_SELECTED:
+    case FLIGHT_DEPARTUNES:
       return {
-        isArrival: false,
-        isDep: true,
+        ...state,
+        flightsDepartures: state.flightsDepartures.concat(
+          action.payload.flightData
+        ),
       };
 
     default:

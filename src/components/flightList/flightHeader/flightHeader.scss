@@ -1,15 +1,15 @@
 .flight-navigation {
   display: flex;
-  margin: auto;
-  height: 50px;
   width: 100%;
   background-color: #6495ed;
   border-radius: 35px 35px 0 0;
 
   &__btn {
-    height: 52px;
     width: 100%;
     text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    line-height: 52px;
     font-weight: 700;
     border: none;
     border-radius: 34px 34px 0 0;

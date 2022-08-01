@@ -3,4 +3,13 @@
   margin: auto;
   display: flex;
   flex-direction: column;
+
+  &__header {
+    display: flex;
+    margin: auto;
+    height: 50px;
+    width: 100%;
+    background-color: #6495ed;
+    border-radius: 35px 35px 0 0;
+  }
 }

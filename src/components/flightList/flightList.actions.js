@@ -1,14 +1,16 @@
-export const ARIVALS_SELECTED = "ARIVALS_SELECTED";
-export const DEPARTUNES_SELECTED = "DEPARTUNES_SELECTED";
+export const FLIGHT_ARIVALS = "FLIGHT_ARIVALS";
+export const FLIGHT_DEPARTUNES = "FLIGHT_DEPARTUNES";
 
-export const changeToArivals = () => {
+export const filterToArivals = (flilghtData) => {
   return {
-    type: ARIVALS_SELECTED,
+    type: FLIGHT_ARIVALS,
+    paylpad: { flilghtData },
   };
 };
 
-export const changeToDepartunes = () => {
+export const filterToDepartunes = (flilghtData) => {
   return {
-    type: DEPARTUNES_SELECTED,
+    type: FLIGHT_DEPARTUNES,
+    paylpad: { flilghtData },
   };
 };
