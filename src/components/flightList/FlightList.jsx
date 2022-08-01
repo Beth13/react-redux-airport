@@ -11,6 +11,9 @@ import { fetchFlights } from "../../gateway/flights.gateway";
 
 const FlightList = () => {
   const [isClicked, setIsClicked] = useState(true);
+  const [flightsArrival, setFlightsArrival] = useState([]);
+  const [flightsDepartures, setFlightsDepartures] = useState([]);
+
   const { search } = useLocation();
   const valuesofSearch = search.split("=");
 
@@ -22,9 +25,6 @@ const FlightList = () => {
       setIsClicked(true);
     }
   };
-
-  const [flightsArrival, setFlightsArrival] = useState([]);
-  const [flightsDepartures, setFlightsDepartures] = useState([]);
 
   useEffect(() => {
     fetchFlights()

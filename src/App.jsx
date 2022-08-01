@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import FlightList from "./components/flightList/FlightList";
 import Search from "./components/search/Search";
-import { fetchFlights } from "./utils/flights.gateway";
 
 import store from "./store";
 
