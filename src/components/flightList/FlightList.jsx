@@ -1,54 +1,36 @@
-import React, { useEffect, useState } from "react";
-import moment from "moment";
+import React, { Component, useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import FlightHeader from "../flightList/flightHeader/FlightHeader";
 import FlightTableArrivals from "./flightTable/flightTableArrivals/FlightTableArrivals";
 import FlightTableDep from "./flightTable/flightTableDep/FlightTableDep";
+import * as flightActions from "../flightList/flightList.actions";
 
 import "./flightList.scss";
 import { useLocation } from "react-router-dom";
-import { fetchFlights } from "../../gateway/flights.gateway";
+import {
+  sortedFlightsArrivals,
+  sortedFlightsDepartures,
+} from "./flightList.selector";
 
-const FlightList = () => {
-  const [isClicked, setIsClicked] = useState(true);
+const FlightList = ({ getFlightList, arrivals, departures }) => {
+  const [isClicked, setIsClicked] = useState(null);
   const { search } = useLocation();
   const valuesofSearch = search.split("=");
 
+  useEffect(() => getFlightList(), []);
+
   const changeList = (headerName) => {
     if (headerName === "arrivals") {
-      setIsClicked(false);
+      setIsClicked(true);
     }
     if (headerName === "departures") {
-      setIsClicked(true);
+      setIsClicked(false);
     }
   };
 
-  const [flightsArrival, setFlightsArrival] = useState([]);
-  const [flightsDepartures, setFlightsDepartures] = useState([]);
-
-  useEffect(() => {
-    fetchFlights()
-      .then((flights) =>
-        flights.map(
-          (flight) =>
-            (flight = { ...flight, time: moment(new Date()).format("HH:MM") })
-        )
-      )
-      .then((flights) => {
-        const filterFlightsArr = flights.filter(
-          (flight) => flight.status === true
-        );
-        setFlightsArrival(filterFlightsArr);
-
-        const filterFlightsDep = flights.filter(
-          (flight) => flight.status === false
-        );
-        setFlightsDepartures(filterFlightsDep);
-      });
-  }, []);
-
   const onSearchArrival = (flightValue) => {
-    const findedArrival = flightsArrival.filter((flight) =>
+    const findedArrival = arrivals.filter((flight) =>
       flight.flightId.includes(flightValue)
     );
 
@@ -56,7 +38,7 @@ const FlightList = () => {
   };
 
   const onSearchDep = (flightValue) => {
-    const findedDep = flightsDepartures.filter((flight) =>
+    const findedDep = departures.filter((flight) =>
       flight.flightId.includes(flightValue)
     );
 
@@ -70,13 +52,13 @@ const FlightList = () => {
         <FlightHeader headerName={"arrivals"} changeList={changeList} />
       </div>
       {isClicked ? (
-        <FlightTableDep
-          onSearchDep={onSearchDep}
+        <FlightTableArrivals
+          onSearchArrival={onSearchArrival}
           valuesofSearch={valuesofSearch}
         />
       ) : (
-        <FlightTableArrivals
-          onSearchArrival={onSearchArrival}
+        <FlightTableDep
+          onSearchDep={onSearchDep}
           valuesofSearch={valuesofSearch}
         />
       )}
@@ -84,4 +66,15 @@ const FlightList = () => {
   );
 };
 
-export default FlightList;
+const mapState = (state) => {
+  return {
+    arrivals: sortedFlightsArrivals(state),
+    departures: sortedFlightsDepartures(state),
+  };
+};
+
+const mapDispatch = {
+  getFlightList: flightActions.getFlightList,
+};
+
+export default connect(mapState, mapDispatch)(FlightList);
