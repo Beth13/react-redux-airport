@@ -5,7 +5,7 @@ import "./flightHeader.scss";
 
 const FlightHeader = ({ headerName, changeList }) => {
   const { search } = useLocation();
-  const parameter = search;
+  const parameters = search || "";
 
   return (
     <div className="flight-navigation">
@@ -16,7 +16,7 @@ const FlightHeader = ({ headerName, changeList }) => {
         className={({ isActive }) =>
           isActive ? `active flight-navigation__btn` : "flight-navigation__btn"
         }
-        to={`/${headerName}${parameter}`}
+        to={`/${headerName}${parameters}`}
       >
         {headerName}
       </NavLink>

@@ -1,25 +1,21 @@
 import { fetchFlights } from "../../gateway/flights.gateway";
 
-export const FLIGHT_ARIVALS = "FLIGHT_ARIVALS";
-export const FLIGHT_DEPARTUNES = "FLIGHT_DEPARTUNES";
 export const FLIGHT_LIST_RECEIVED = "FLIGHT_LIST_RECEIVED";
 
-export const flightListRecieved = (flightList) => {
+export const flightListRecieved = (body) => {
   const action = {
     type: FLIGHT_LIST_RECEIVED,
     payload: {
-      flightList,
+      body,
     },
   };
 
   return action;
 };
 
-export const getFlightList = () => {
+export const getFlightList = (date) => {
   const thunkAction = function (dispatch) {
-    fetchFlights().then((flightsList) =>
-      dispatch(flightListRecieved(flightsList))
-    );
+    fetchFlights(date).then((body) => dispatch(flightListRecieved(body)));
   };
 
   return thunkAction;

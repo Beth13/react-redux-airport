@@ -1,7 +1,7 @@
-const baseUrl = "https://6272c6bfa6522e24ac3e537b.mockapi.io/v1/flights";
+const baseUrl = "https://api.iev.aero/api/flights";
 
-export const fetchFlights = () =>
-  fetch(baseUrl)
+export const fetchFlights = (date) =>
+  fetch(`${baseUrl}/${date}`)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -9,4 +9,4 @@ export const fetchFlights = () =>
         throw new Error();
       }
     })
-    .catch(() => alert("Internal Server Error. Can't display events"));
+    .catch(() => alert("Internal Server Error. Can't display flights"));

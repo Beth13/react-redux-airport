@@ -1,5 +1,6 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import FlightHeader from "../flightList/flightHeader/FlightHeader";
 import FlightTableArrivals from "./flightTable/flightTableArrivals/FlightTableArrivals";
@@ -18,7 +19,10 @@ const FlightList = ({ getFlightList, arrivals, departures }) => {
   const { search } = useLocation();
   const valuesofSearch = search.split("=");
 
-  useEffect(() => getFlightList(), []);
+  useEffect(
+    () => getFlightList(moment(new Date(2022, 10, 1)).format("MM-DD-YYYY")),
+    []
+  );
 
   const changeList = (headerName) => {
     if (headerName === "arrivals") {
@@ -55,11 +59,13 @@ const FlightList = ({ getFlightList, arrivals, departures }) => {
         <FlightTableArrivals
           onSearchArrival={onSearchArrival}
           valuesofSearch={valuesofSearch}
+          arrivals={arrivals}
         />
       ) : (
         <FlightTableDep
           onSearchDep={onSearchDep}
           valuesofSearch={valuesofSearch}
+          departures={departures}
         />
       )}
     </div>
