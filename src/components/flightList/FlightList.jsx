@@ -20,7 +20,7 @@ const FlightList = ({ getFlightList, arrivals, departures }) => {
   const valuesofSearch = search.split("=");
 
   useEffect(
-    () => getFlightList(moment(new Date(2022, 10, 1)).format("MM-DD-YYYY")),
+    () => getFlightList(moment(new Date(2021, 10, 1)).format("MM-DD-YYYY")),
     []
   );
 

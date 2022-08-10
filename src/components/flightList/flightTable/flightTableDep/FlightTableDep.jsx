@@ -8,7 +8,7 @@ const FlightTableDep = ({ onSearchDep, valuesofSearch }) => {
   return (
     <div className="flight">
       <h2 className="flight__today-day">{`Today is ${moment(
-        new Date(2022, 10, 1)
+        new Date(2021, 10, 1)
       ).format("MMMM Do YYYY")}`}</h2>
       {onSearchDep(valuesofSearch[1]).length !== 0 ? (
         <ul className="flight-list">
