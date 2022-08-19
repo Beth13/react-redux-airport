@@ -1,0 +1,46 @@
+.calendar {
+  display: flex;
+  padding: 20px;
+  height: 70px;
+  background-color: white;
+
+  &__picker {
+    &-input {
+      padding: 10px;
+      border: none;
+      background-color: #6495ed;
+      color: white;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+  }
+
+  &__days {
+    display: flex;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    text-align: center;
+
+    &-btn {
+      font-weight: 700;
+      margin-left: 20px;
+      text-decoration: none;
+      color: #6495ed;
+      cursor: pointer;
+
+      &_item {
+        display: flex;
+        flex-direction: column;
+
+        &-date {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+
+.active-day {
+  border-bottom: 3px solid #6495ed;
+  border-radius: 5px;
+}

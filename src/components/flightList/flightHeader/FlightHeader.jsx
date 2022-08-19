@@ -1,11 +1,11 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 
-import "./flightHeader.scss";
+import './flightHeader.scss';
 
 const FlightHeader = ({ headerName, changeList }) => {
   const { search } = useLocation();
-  const parameters = search || "";
+  const parameters = search || '';
 
   return (
     <div className="flight-navigation">
@@ -14,7 +14,7 @@ const FlightHeader = ({ headerName, changeList }) => {
           changeList(headerName);
         }}
         className={({ isActive }) =>
-          isActive ? `active flight-navigation__btn` : "flight-navigation__btn"
+          isActive ? 'active flight-navigation__btn' : 'flight-navigation__btn'
         }
         to={`/${headerName}${parameters}`}
       >

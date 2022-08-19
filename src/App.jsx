@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
-import FlightList from "./components/flightList/FlightList";
-import Search from "./components/search/Search";
+import FlightList from './components/flightList/FlightList';
+import Search from './components/search/Search';
 
-import store from "./store";
+import store from './store';
 
 const App = () => {
   return (

@@ -1,12 +1,11 @@
-const baseUrl = "https://api.iev.aero/api/flights";
+const baseUrl = 'https://api.iev.aero/api/flights';
 
-export const fetchFlights = (date) =>
+export const fetchFlights = date =>
   fetch(`${baseUrl}/${date}`)
-    .then((response) => {
+    .then(response => {
       if (response.ok) {
         return response.json();
-      } else {
-        throw new Error();
       }
+      throw new Error();
     })
     .catch(() => alert("Internal Server Error. Can't display flights"));

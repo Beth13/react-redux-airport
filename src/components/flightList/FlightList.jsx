@@ -1,60 +1,62 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { useLocation } from 'react-router-dom';
+import { sortedFlightsArrivals, sortedFlightsDepartures } from './flightList.selector';
 
-import FlightHeader from "../flightList/flightHeader/FlightHeader";
-import FlightTableArrivals from "./flightTable/flightTableArrivals/FlightTableArrivals";
-import FlightTableDep from "./flightTable/flightTableDep/FlightTableDep";
-import * as flightActions from "../flightList/flightList.actions";
+import Calendar from './calendar/Calendar';
+import FlightHeader from '../flightList/flightHeader/FlightHeader';
+import FlightTableArrivals from './flightTable/flightTableArrivals/FlightTableArrivals';
+import FlightTableDep from './flightTable/flightTableDep/FlightTableDep';
+import * as flightActions from '../flightList/flightList.actions';
 
-import "./flightList.scss";
-import { useLocation } from "react-router-dom";
-import {
-  sortedFlightsArrivals,
-  sortedFlightsDepartures,
-} from "./flightList.selector";
+import './flightList.scss';
+
+const qs = require('qs');
 
 const FlightList = ({ getFlightList, arrivals, departures }) => {
   const [isClicked, setIsClicked] = useState(null);
   const { search } = useLocation();
-  const valuesofSearch = search.split("=");
 
-  useEffect(
-    () => getFlightList(moment(new Date(2021, 10, 1)).format("MM-DD-YYYY")),
-    []
-  );
+  const { date } = qs.parse(search.replace('?', ''));
 
-  const changeList = (headerName) => {
-    if (headerName === "arrivals") {
+  const valuesofSearch = search.split('=');
+
+  useEffect(() => getFlightList(date || moment(new Date()).format('DD-MM-YYYY')), []);
+
+  const changeList = headerName => {
+    if (headerName === 'arrivals') {
       setIsClicked(true);
     }
-    if (headerName === "departures") {
+    if (headerName === 'departures') {
       setIsClicked(false);
     }
   };
 
-  const onSearchArrival = (flightValue) => {
-    const findedArrival = arrivals.filter((flight) =>
-      flight.flightId.includes(flightValue)
-    );
+  const onSearchArrival = flightValue => {
+    if (flightValue != null) {
+      const findedArrival = arrivals.filter(flight => flight.flightId.includes(flightValue));
+      return findedArrival;
+    }
 
-    return findedArrival;
+    return arrivals;
   };
 
-  const onSearchDep = (flightValue) => {
-    const findedDep = departures.filter((flight) =>
-      flight.flightId.includes(flightValue)
-    );
+  const onSearchDep = flightValue => {
+    if (flightValue != null) {
+      const findedDep = departures.filter(flight => flight.flightId.includes(flightValue));
 
-    return findedDep;
+      return findedDep;
+    } else return departures;
   };
 
   return (
     <div className="flight-list">
       <div className="flight-list__header">
-        <FlightHeader headerName={"departures"} changeList={changeList} />
-        <FlightHeader headerName={"arrivals"} changeList={changeList} />
+        <FlightHeader headerName={'departures'} changeList={changeList} />
+        <FlightHeader headerName={'arrivals'} changeList={changeList} />
       </div>
+      <Calendar getFlightList={getFlightList} />
       {isClicked ? (
         <FlightTableArrivals
           onSearchArrival={onSearchArrival}
@@ -72,7 +74,7 @@ const FlightList = ({ getFlightList, arrivals, departures }) => {
   );
 };
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     arrivals: sortedFlightsArrivals(state),
     departures: sortedFlightsDepartures(state),

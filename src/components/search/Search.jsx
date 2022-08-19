@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import "./search.scss";
-const qs = require("qs");
+import './search.scss';
+const qs = require('qs');
 
 const Search = () => {
-  const [flightValue, setFlightValue] = useState("");
+  const { search } = useLocation();
+  const { value, date } = qs.parse(search.replace('?', ''));
 
-  const params = qs.stringify({ value: flightValue });
+  const [flightValue, setFlightValue] = useState(value || '');
+
+  const params = qs.stringify(flightValue ? { date, value: flightValue } : { date });
   const url = `/departures?${params}`;
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setFlightValue(event.target.value);
   };
 
