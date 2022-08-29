@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { sortedFlightsArrivals, sortedFlightsDepartures } from './flightList.selector';
 
 import Calendar from './calendar/Calendar';
 import FlightHeader from '../flightList/flightHeader/FlightHeader';
-import FlightTableArrivals from './flightTable/flightTableArrivals/FlightTableArrivals';
-import FlightTableDep from './flightTable/flightTableDep/FlightTableDep';
+import FlightTable from './flightTable/flightTable';
 import * as flightActions from '../flightList/flightList.actions';
 
 import './flightList.scss';
@@ -15,7 +14,6 @@ import './flightList.scss';
 const qs = require('qs');
 
 const FlightList = ({ getFlightList, arrivals, departures }) => {
-  const [isClicked, setIsClicked] = useState(null);
   const { search } = useLocation();
 
   const { date } = qs.parse(search.replace('?', ''));
@@ -24,52 +22,34 @@ const FlightList = ({ getFlightList, arrivals, departures }) => {
 
   useEffect(() => getFlightList(date || moment(new Date()).format('DD-MM-YYYY')), []);
 
-  const changeList = headerName => {
-    if (headerName === 'arrivals') {
-      setIsClicked(true);
-    }
-    if (headerName === 'departures') {
-      setIsClicked(false);
-    }
-  };
-
-  const onSearchArrival = flightValue => {
+  const onSearchFlight = (flightValue, flights) => {
     if (flightValue != null) {
-      const findedArrival = arrivals.filter(flight => flight.flightId.includes(flightValue));
-      return findedArrival;
-    }
+      const findedFlight = flights.filter(flight => flight.flightId.includes(flightValue));
 
-    return arrivals;
-  };
-
-  const onSearchDep = flightValue => {
-    if (flightValue != null) {
-      const findedDep = departures.filter(flight => flight.flightId.includes(flightValue));
-
-      return findedDep;
-    } else return departures;
+      return findedFlight;
+    } else return flights;
   };
 
   return (
     <div className="flight-list">
       <div className="flight-list__header">
-        <FlightHeader headerName={'departures'} changeList={changeList} />
-        <FlightHeader headerName={'arrivals'} changeList={changeList} />
+        <FlightHeader headerName={'departures'} />
+        <FlightHeader headerName={'arrivals'} />
       </div>
       <Calendar getFlightList={getFlightList} />
-      {isClicked ? (
-        <FlightTableArrivals
-          onSearchArrival={onSearchArrival}
-          valuesofSearch={valuesofSearch}
-          arrivals={arrivals}
-        />
-      ) : (
-        <FlightTableDep
-          onSearchDep={onSearchDep}
-          valuesofSearch={valuesofSearch}
-          departures={departures}
-        />
-      )}
+      <Routes>
+        <Route
+          path="/:direction"
+          element={
+            <FlightTable
+              arrivals={arrivals}
+              departures={departures}
+              onSearchFlight={onSearchFlight}
+              valuesofSearch={valuesofSearch}
+            />
+          }
+        ></Route>
+      </Routes>
     </div>
   );
 };

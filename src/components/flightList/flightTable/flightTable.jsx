@@ -1,22 +1,27 @@
 import React from 'react';
 import moment from 'moment';
-import NoFlightTable from '../noFlightTable/NoFlightTable';
+import { useParams } from 'react-router-dom';
 
-import '../../flightTable.scss';
+import NoFlightTable from './noFlightTable/NoFlightTable';
 
-const FlightTableArrivals = ({ onSearchArrival, valuesofSearch }) => {
-  const currentArrival = onSearchArrival(valuesofSearch[2]);
+import '../flightTable.scss';
+
+const FlightTable = ({ arrivals, departures, onSearchFlight, valuesofSearch }) => {
+  const params = useParams();
+
+  const flights = params.direction === 'arrivals' ? arrivals : departures;
+  const currentFlight = onSearchFlight(valuesofSearch[2], flights);
 
   return (
     <div className="flight">
-      {currentArrival.length !== 0 ? (
+      {currentFlight.length !== 0 ? (
         <ul className="flight-list">
-          {currentArrival.map(flight => (
+          {currentFlight.map(flight => (
             <li className="flight-list__item" key={flight.id}>
               <span className="flight-list__item_span">{flight.terminal}</span>
               <span className="flight-list__item_span">{moment(flight.time).format('hh:mm')}</span>
               <span className="flight-list__item_span">{flight.destination}</span>
-              <span className="flight-list__item_span">{'Landed'}</span>
+              <span className="flight-list__item_span">{flight.status}</span>
               <span className="flight-list__item_span">{flight.flightId}</span>
               <span className="flight-list__item_span">{flight.company}</span>
             </li>
@@ -29,4 +34,4 @@ const FlightTableArrivals = ({ onSearchArrival, valuesofSearch }) => {
   );
 };
 
-export default FlightTableArrivals;
+export default FlightTable;

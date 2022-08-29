@@ -3,16 +3,13 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import './flightHeader.scss';
 
-const FlightHeader = ({ headerName, changeList }) => {
+const FlightHeader = ({ headerName }) => {
   const { search } = useLocation();
   const parameters = search || '';
 
   return (
     <div className="flight-navigation">
       <NavLink
-        onClick={() => {
-          changeList(headerName);
-        }}
         className={({ isActive }) =>
           isActive ? 'active flight-navigation__btn' : 'flight-navigation__btn'
         }
