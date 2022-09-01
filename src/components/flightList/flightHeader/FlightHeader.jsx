@@ -5,7 +5,7 @@ import './flightHeader.scss';
 
 const FlightHeader = ({ headerName }) => {
   const { search } = useLocation();
-  const parameters = search || '';
+  const parameters = search;
 
   return (
     <div className="flight-navigation">

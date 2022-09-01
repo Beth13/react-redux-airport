@@ -6,9 +6,9 @@ const qs = require('qs');
 
 const Search = () => {
   const { search } = useLocation();
-  const { value, date } = qs.parse(search.replace('?', ''));
+  const { date } = qs.parse(search.replace('?', ''));
 
-  const [flightValue, setFlightValue] = useState(value || '');
+  const [flightValue, setFlightValue] = useState('');
 
   const params = qs.stringify(flightValue ? { date, value: flightValue } : { date });
   const url = `/departures?${params}`;
