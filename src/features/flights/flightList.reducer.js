@@ -8,7 +8,7 @@ const initialState = {
 const flightReducer = (state = initialState, action) => {
   switch (action.type) {
     case FLIGHT_LIST_RECEIVED: {
-      const { arrival, departure } = action.payload.body.body;
+      const { arrival, departure } = action.payload.flights.body;
       return {
         ...state,
         arrivals: arrival,

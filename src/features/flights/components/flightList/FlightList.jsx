@@ -1,17 +1,11 @@
 import React from 'react';
 import moment from 'moment';
-import { useParams } from 'react-router-dom';
 
-import NoFlightTable from './noFlightTable/NoFlightTable';
+import NoFlightList from './noFlightList/NoFlightList';
 
-import '../flightTable.scss';
+import '../../styles/flights.scss';
 
-const FlightTable = ({ arrivals, departures, onSearchFlight, valuesofSearch }) => {
-  const params = useParams();
-
-  const flights = params.direction === 'arrivals' ? arrivals : departures;
-  const currentFlight = onSearchFlight(valuesofSearch[2], flights);
-
+const flightList = ({ currentFlight }) => {
   return (
     <div className="flight">
       {currentFlight.length !== 0 ? (
@@ -21,17 +15,16 @@ const FlightTable = ({ arrivals, departures, onSearchFlight, valuesofSearch }) =
               <span className="flight-list__item_span">{flight.terminal}</span>
               <span className="flight-list__item_span">{moment(flight.time).format('hh:mm')}</span>
               <span className="flight-list__item_span">{flight.destination}</span>
-              <span className="flight-list__item_span">{flight.status}</span>
               <span className="flight-list__item_span">{flight.flightId}</span>
               <span className="flight-list__item_span">{flight.company}</span>
             </li>
           ))}
         </ul>
       ) : (
-        <NoFlightTable />
+        <NoFlightList />
       )}
     </div>
   );
 };
 
-export default FlightTable;
+export default flightList;

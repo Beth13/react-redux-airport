@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import './flightHeader.scss';
+import '../../styles/flightHeader.scss';
 
 const FlightHeader = ({ headerName }) => {
   const { search } = useLocation();

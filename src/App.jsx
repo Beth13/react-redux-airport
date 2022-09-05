@@ -2,8 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-import FlightList from './components/flightList/FlightList';
-import Search from './components/search/Search';
+import Flights from './features/flights/Flights';
+import Search from './features/search/Search';
 
 import store from './store';
 
@@ -13,7 +13,7 @@ const App = () => {
       <BrowserRouter>
         <div className="page">
           <Search />
-          <FlightList />
+          <Flights />
         </div>
       </BrowserRouter>
     </Provider>

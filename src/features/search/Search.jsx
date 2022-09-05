@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import './search.scss';
 const qs = require('qs');
@@ -12,7 +12,6 @@ const Search = () => {
 
   const params = qs.stringify(flightValue ? { date, value: flightValue } : { date });
   const url = `/departures?${params}`;
-  const navigate = useNavigate();
 
   const handleChange = event => {
     setFlightValue(event.target.value);
@@ -31,9 +30,9 @@ const Search = () => {
           className="search__area-input"
           placeholder="Airline, destination or flight #"
         />
-        <button className="search__area-btn" onClick={() => navigate(url)}>
+        <Link className="search__area-btn" to={url}>
           Search
-        </button>
+        </Link>
       </div>
     </div>
   );

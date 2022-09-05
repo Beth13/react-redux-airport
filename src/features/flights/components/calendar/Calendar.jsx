@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Day from './Day';
 
-import './calendar.scss';
+import '../../styles/calendar.scss';
 
 const qs = require('qs');
 

@@ -1,8 +1,6 @@
 import React from 'react';
 
-import '../../flightTable.scss';
-
-const NoFlightTable = () => {
+const noFlightList = () => {
   return (
     <div className="flight">
       <div className="flight__no-flight">No flights...</div>
@@ -10,4 +8,4 @@ const NoFlightTable = () => {
   );
 };
 
-export default NoFlightTable;
+export default noFlightList;
